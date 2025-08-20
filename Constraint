@@ -1,0 +1,19 @@
+vars = ["WA","NT","SA","Q","NSW","V","T"]
+dom = {v:["R","G","B"] for v in vars}
+nbr = {"WA":["NT","SA"],"NT":["WA","SA","Q"],"SA":["WA","NT","Q","NSW","V"],
+       "Q":["NT","SA","NSW"],"NSW":["SA","Q","V"],"V":["SA","NSW"],"T":[]}
+
+def valid(ass,v,val): return all(ass.get(n)!=val for n in nbr[v])
+
+def backtrack(ass):
+    if len(ass)==len(vars): return ass
+    v=[x for x in vars if x not in ass][0]
+    for val in dom[v]:
+        if valid(ass,v,val):
+            ass[v]=val
+            r=backtrack(ass)
+            if r: return r
+            ass.pop(v)
+    return None
+
+print("Solution:",backtrack({}))
