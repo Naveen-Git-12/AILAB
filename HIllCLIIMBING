@@ -1,0 +1,20 @@
+import random
+
+dist = [[0,10,15,20],[10,0,35,25],[15,35,0,30],[20,25,30,0]]
+
+def total(path):
+    return sum(dist[path[i]][path[i+1]] for i in range(len(path)-1)) + dist[path[-1]][path[0]]
+
+def hill_climb(n, iters=10000):
+    path = list(range(n))
+    best = total(path)
+    for _ in range(iters):
+        i, j = random.sample(range(n), 2)
+        new = path[:]
+        new[i], new[j] = new[j], new[i]
+        d = total(new)
+        if d < best: path, best = new, d
+    return path, best
+
+sol, dist_val = hill_climb(4)
+print("Optimal Path:", sol, "Total Distance:",dist_val)
