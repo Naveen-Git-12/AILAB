@@ -1,0 +1,21 @@
+  board = ["-"] * 9
+def show():
+    for i in range(0, 9, 3):
+        print(" | ".join(board[i:i+3]))
+def winner():
+    wins = [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)]
+    for a,b,c in wins:
+        if board[a] == board[b] == board[c] != "-": return True
+    return False
+def play():
+    turn = "X"
+    while "-" in board:
+        show()
+        ps = int(input(f"{turn}'s move (1-9): ")) - 1
+        if board[ps] != "-": continue
+        board[ps] = turn
+        if winner():
+            show(); print(f"{turn} wins!"); return
+        turn = "O" if turn == "X" else "X"
+    show(); print("It's a tie!")
+play()
